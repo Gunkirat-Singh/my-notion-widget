@@ -1,33 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        /* Modern, dark aesthetic */
         body {
             margin: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: transparent; /* Matches Notion background */
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: #37352f; /* Standard Notion text color */
+            background-color: #000000; /* Pure Black */
+            color: #FFFFFF; /* Pure White */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            overflow: hidden;
         }
-        #date-container {
-            font-size: 24px;
-            font-weight: 600;
+
+        /* Container for the date and time */
+        #widget {
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+
+        /* Time Styling: Large and bold */
+        #time {
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 4px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2); /* Subtle glow */
+        }
+
+        /* Date Styling: Clean and spaced */
+        #date {
+            font-size: 18px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: rgba(255, 255, 255, 0.6); /* Slightly faded for hierarchy */
+        }
+
+        /* Aesthetic Divider */
+        .divider {
+            width: 40px;
+            height: 2px;
+            background: #FFFFFF;
+            margin: 15px auto;
+            border-radius: 2px;
+            opacity: 0.3;
         }
     </style>
 </head>
 <body>
-    <div id="date-container"></div>
+    <div id="widget">
+        <div id="time">00:00</div>
+        <div class="divider"></div>
+        <div id="date">LOADING...</div>
+    </div>
 
     <script>
-        function updateDate() {
+        function updateClock() {
             const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('date-container').innerText = now.toLocaleDateString(undefined, options);
+            
+            // Time Format (HH:MM)
+            const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
+            document.getElementById('time').innerText = now.toLocaleTimeString(undefined, timeOptions).replace(/^0/, '');
+
+            // Date Format (Day, Month Date)
+            const dateOptions = { weekday: 'short', month: 'long', day: 'numeric' };
+            document.getElementById('date').innerText = now.toLocaleDateString(undefined, dateOptions);
         }
-        updateDate();
+
+        // Update every second to keep time accurate
+        setInterval(updateClock, 1000);
+        updateClock();
     </script>
 </body>
 </html>
